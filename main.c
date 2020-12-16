@@ -4,7 +4,9 @@ int main(int *argc, char *argv[])
 
     Analex("code_test.txt");
     PROGRAM();
-    // sasasassssqdsdq
+
+    //hello there
+
     if (Cour_Token.token == FIN_TOKEN)
     {
         printf("BRAVO");
