@@ -3,8 +3,8 @@ int main(int *argc, char *argv[])
 {
 
     Analex("code_test.txt");
+    // display();
     PROGRAM();
-
     //hello there
 
     if (Cour_Token.token == FIN_TOKEN)
