@@ -3,7 +3,7 @@ int main(int *argc, char *argv[])
 {
 
     Analex("code_test.txt");
-    // display();
+
     PROGRAM();
     //hello there
 
