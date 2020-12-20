@@ -3,6 +3,10 @@
 void read_char()
 {
     cour_char = fgetc(file);
+    if (cour_char == '\n')
+        colonne = 0, ligne++;
+    else
+        colonne++;
 }
 //------------
 void read_string()
@@ -73,6 +77,8 @@ void read_symbole()
     {
         read_char();
     }
+    Cour_Token.ligne = ligne;
+    Cour_Token.colonne = colonne;
     if ((cour_char >= 'a' && cour_char <= 'z') || (cour_char >= 'A' && cour_char <= 'Z'))
     {
         read_string();
@@ -349,7 +355,7 @@ void display()
         while (ptr != NULL)
         {
             if (ptr->info.identif[0] != '\n')
-                printf("%s ", ptr->info.identif);
+                printf("%s %d %d ", ptr->info.value, ptr->info.ligne, ptr->info.colonne);
             ptr = ptr->next;
         }
     }
@@ -372,3 +378,75 @@ void commentignore()
     }
 }
 //------------
+int hashCode(char identif[21])
+{
+    int hashind = 0, n = strlen(identif);
+    int pow = 53;
+    for (int i = n - 1; i >= 0; i--)
+        hashind += (identif[i] * pow) % SIZE, pow * pow;
+    return hashind;
+}
+//-------------
+struct DataItem *search(char identif[21])
+{
+    //get the hash
+    int hashIndex = hashCode(identif);
+
+    //move in array until an empty
+    while (hashArray[hashIndex] != NULL)
+    {
+
+        if (hashArray[hashIndex]->key == hashIndex)
+            return hashArray[hashIndex];
+
+        //go to next cell
+        ++hashIndex;
+
+        //wrap around the table
+        hashIndex %= SIZE;
+    }
+
+    return NULL;
+}
+//----------------
+void insert(char identif[21], Maptoken data)
+{
+
+    struct DataItem *item = (struct DataItem *)malloc(sizeof(struct DataItem));
+    item->data = data;
+
+    //get the hash
+    int hashIndex = hashCode(identif);
+    item->key = hashIndex;
+
+    //move in array until an empty or deleted cell
+    while (hashArray[hashIndex] != NULL)
+    {
+        //go to next cell
+        ++hashIndex;
+
+        //wrap around the table
+        hashIndex %= SIZE;
+    }
+
+    hashArray[hashIndex] = item;
+    printf("%d ", hashIndex);
+}
+//---------
+void displayarray()
+{
+    int i = 0;
+    struct DataItem *s = search("TOTO");
+    printf("%d  %s", s->key, s->data.r_value);
+    // for (i = 0; i < SIZE; i++)
+    // {
+
+    // if (hashArray[i] != NULL)
+    printf(" (%d ,%s)", 17278, hashArray[17278]->data.value);
+    printf(" (%d ,%s)", 16642, hashArray[16642]->data.value);
+    printf(" (%d ,%s)", 22419, hashArray[22419]->data.value);
+    printf(" (%d ,%s)", 4717, hashArray[4717]->data.value);
+    // }
+
+    printf("\n");
+}
