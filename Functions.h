@@ -4,7 +4,7 @@ void read_char()
 {
     cour_char = fgetc(file);
     if (cour_char == '\n')
-        colonne = 0, ligne++;
+        colonne = 1, ligne++;
     else
         colonne++;
 }

@@ -12,16 +12,17 @@ void COND();
 void EXPR();
 void TERM();
 void FACT();
+bool c = 0;
 struct node *ptr = NULL;
-int verify_symbol(char identif[21])
-{
-    struct DataItem *s = search(identif);
-    if (s == NULL)
-        return -1;
-    else if (s->data.isconst == 1)
-        return -2;
-    return s->key;
-}
+// int verify_symbol(char identif[21])
+// {
+//     struct DataItem *s = search(identif);
+//     if (s == NULL)
+//         return -1;
+//     else if (s->data.isconst == 1)
+//         return -2;
+//     return s->key;
+// }
 void Symbole_Suiv()
 {
     if (ptr == NULL)
@@ -41,9 +42,10 @@ void Test_Symbole(Codes_LEX token)
 
         Symbole_Suiv();
     }
-    else
+    else if (c == 0)
     {
-        printf("%s\n dans la ligne : %d colonne :%d \n", maperror[token].message_erreur, Cour_Token.ligne, Cour_Token.colonne);
+
+        printf("%s\n dans la ligne : %d colonne :%d \n", maperror[token].message_erreur, prev_token.ligne, prev_token.colonne);
     }
 }
 void BLOCK()
@@ -145,10 +147,17 @@ void INSTS()
 {
     Test_Symbole(BEGIN_TOKEN);
     INST();
-    while (Cour_Token.token == PV_TOKEN)
+    // Symbole_Suiv();
+    prev_token = Cour_Token;
+    while (prev_token.token == PV_TOKEN)
     {
         Symbole_Suiv();
         INST();
+        if (Cour_Token.token != END_TOKEN)
+        {
+            Test_Symbole(PV_TOKEN);
+            break;
+        }
     }
     Test_Symbole(END_TOKEN);
 }

@@ -5,9 +5,10 @@ begin
    {* initialisation de x *}
    xs:=toto2;
    read(yd);
-   while x < y do begin read(y); x:=x+y+titi; end;
+   while x < y do begin read(y); x:=x+ytiti; end;
    {* affichage des resultas
     de x et y *} 
    write(x);
-   write(y);
+   write(y)
 end.
+
