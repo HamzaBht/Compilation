@@ -45,7 +45,7 @@ void Test_Symbole(Codes_LEX token)
     else if (c == 0)
     {
 
-        printf("%s\n dans la ligne : %d colonne :%d \n", maperror[token].message_erreur, prev_token.ligne, prev_token.colonne);
+        printf("%s\n dans la ligne : %d colonne :%d \n", maperror[token].message_erreur, Cour_Token.ligne, Cour_Token.colonne);
     }
 }
 void BLOCK()
@@ -149,17 +149,19 @@ void INSTS()
     INST();
     // Symbole_Suiv();
     prev_token = Cour_Token;
-    while (prev_token.token == PV_TOKEN)
+    while (Cour_Token.token == PV_TOKEN)
     {
         Symbole_Suiv();
         INST();
-        if (Cour_Token.token != END_TOKEN)
+        if (Cour_Token.token != END_TOKEN && Cour_Token.token != PV_TOKEN)
         {
-            Test_Symbole(PV_TOKEN);
+            c = 1;
+            printf("un ; est manquant ");
             break;
         }
     }
-    Test_Symbole(END_TOKEN);
+    if (c == 0)
+        Test_Symbole(END_TOKEN);
 }
 void INST()
 {

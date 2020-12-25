@@ -305,7 +305,6 @@ void Analex(const char *filename)
 
         // if (Cour_Token.token != NULL_TOKEN)
         // {
-        //     printf("%s ", Cour_Token.value);
         // }
         // printf("%s ", Cour_Token.identif);
     }
